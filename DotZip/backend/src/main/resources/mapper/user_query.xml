@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mycom.myapp.user.dao.UserDao">
+	<select id="userLogin" parameterType="String" resultType="com.mycom.myapp.user.dto.UserDto">
+    	select user_seq, user_name, user_password, user_email, user_profile_image_url, user_register_date, user_clsf
+    		from users
+    		where user_email = #{userEmail}
+    </select>
+    <select id="getUsers" resultType="com.mycom.myapp.user.dto.UserDto">
+    	select *
+		from users
+		where user_seq NOT IN (select user_id_to from friend where user_id_from = ${userSeq})
+    </select>
+    
+    <insert id="userRegister" parameterType="com.mycom.myapp.user.dto.UserDto">
+    	insert into users( user_name, user_password, user_email, user_clsf, user_profile_image_url, user_register_date )
+    		values ( #{userName}, #{userPassword}, #{userEmail}, #{userClsf}, "", now() )
+    </insert>
+    
+    <select id="userDupCheck" parameterType="com.mycom.myapp.user.dto.UserDto" resultType="int">
+    	select count(*) 
+    	from users
+    	where user_email= #{userEmail}
+    </select>
+    
+    <update id="userChange" parameterType="com.mycom.myapp.user.dto.UserDto">
+    	update users
+    	set user_password= #{userPassword},
+    		user_name= #{userName}
+    	where user_email= #{userEmail}
+    </update>
+    
+    <delete id="userUnregist" parameterType="com.mycom.myapp.user.dto.UserDto">
+    	delete from users
+    	where user_email= #{userEmail}
+    </delete>
+    
+    <select id="userInfo" parameterType="string" resultType="com.mycom.myapp.user.dto.UserDto">
+		select user_seq, user_name, user_password, user_email, user_profile_image_url, user_register_date, user_clsf
+		from users
+		where user_email = #{userEmail}
+	</select>
+    
+    
+	<select id="getRefreshToken" parameterType="string" resultType="string">
+		select token
+		from users
+		where user_email= #{userEmail}
+	</select>
+	
+	<update id="saveRefreshToken" parameterType="map">
+		update users
+		set token = #{token}
+		where user_email= #{userEmail}
+	</update>
+	
+	<update id="deleteRefreshToken" parameterType="map">
+		update users
+		set token = #{token, jdbcType=VARCHAR}
+		where user_email= #{userEmail}
+	</update>
+</mapper>

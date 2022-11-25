@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.mycom.myapp.interest.dao.InterestDao">
+	<select id="interestAreaList" parameterType="map" resultType="com.mycom.myapp.interest.dto.InterestAreaDto">
+    	SELECT a.interest_area_id, a.dong_code, d.city_name,d.city_code,d.gugun_code, d.gugun_name, d.name,true bookmarked
+		FROM interest_area a, dong_code d
+		WHERE a.user_seq = #{userSeq} and a.dong_code=d.code
+		limit #{limit} offset #{offset}
+    </select>
+    
+    <select id="getInterestAreaCountOfCurrentUser" parameterType="int" resultType="int">
+    	SELECT count(*) from interest_area
+		WHERE user_seq = #{userSeq}
+    </select>
+    <select id="interestArea" parameterType="com.mycom.myapp.interest.dto.InterestAreaDto" resultType="boolean">
+		SELECT CASE WHEN EXISTS(
+				  SELECT 1 FROM interest_area b WHERE USER_SEQ=#{userSeq} AND DONG_CODE=#{dongCode})
+			  THEN true ELSE false END
+	</select>
+    <insert id="interestAreaInsert" parameterType="map">
+		INSERT INTO interest_area ( user_seq, dong_code )
+		            VALUES ( #{userSeq}, #{dongCode} )
+	</insert>
+	<delete id="interestAreaDelete" parameterType="map">
+		DELETE FROM interest_area WHERE user_seq = #{userSeq} and dong_code = #{dongCode}
+	</delete>
+	
+	
+	<select id="interestHouseList" parameterType="map" resultType="com.mycom.myapp.interest.dto.InterestHouseDto">
+		SELECT h.interest_house_id, h.house_no,b.no, b.dong, b.aptName,b.dealAmount,b.dealYear,b.dealMonth,b.dealDay,b.area,b.lat,b.lng,true bookmarked
+		FROM interest_house h, (
+			SELECT d.no,d.dong, d.aptName,d.dealAmount,d.dealYear,d.dealMonth,d.dealDay,d.area,i.lat,i.lng
+			FROM housedeal d, houseinfo i
+			WHERE d.house_no = i.no
+        ) b
+		WHERE h.user_seq = #{userSeq} and h.house_no=b.no;
+    </select>
+    
+    <select id="getInterestHouseCountOfCurrentUser" parameterType="int" resultType="int">
+    	SELECT count(*) from interest_house
+		WHERE user_seq = #{userSeq}
+    </select>
+    
+    <insert id="interestHouseInsert" parameterType="map">
+		INSERT INTO interest_house ( user_seq, house_no )
+		            VALUES ( #{userSeq}, #{houseNo} )
+	</insert>
+	<delete id="interestHouseDelete" parameterType="map">
+		DELETE FROM interest_house WHERE user_seq = #{userSeq} and house_no = #{houseNo}
+	</delete>
+	
+	
+	<select id="popularAreaList" resultType="com.mycom.myapp.interest.dto.PopularAreaDto">
+		SELECT d.city_name, d.name, d.gugun_name, d.code, a.cnt
+		FROM dong_code d,
+			(SELECT dong_code, COUNT(dong_code) AS cnt 
+			FROM interest_area 
+			GROUP BY dong_code 
+			ORDER BY cnt DESC) a
+		WHERE d.code = a.dong_code;
+    </select>
+    
+    <select id="popularHouseList" resultType="com.mycom.myapp.interest.dto.PopularHouseDto">
+		SELECT a.house_no, d.aptName, d.dong, a.cnt
+		FROM housedeal d,
+			(SELECT house_no, COUNT(house_no) AS cnt 
+			FROM interest_house
+			GROUP BY house_no 
+			ORDER BY cnt DESC) a
+		WHERE d.no = a.house_no;
+    </select>
+</mapper>

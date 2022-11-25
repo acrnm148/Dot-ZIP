@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.mycom.myapp.qna.dao.QnaDao">
+
+	<insert id="qnaInsert" parameterType="com.mycom.myapp.qna.dto.QnaDto" useGeneratedKeys="true" keyProperty="qnaId">
+		INSERT INTO qna ( qna_num, user_seq, type, title, content, regDt, ansYN, password )
+		            VALUES ( #{qnaNum}, #{userSeq}, '0', #{title}, #{content}, now(), 'N', #{password} )
+	</insert>
+	
+	<insert id="qnaAnswerInsert" parameterType="com.mycom.myapp.qna.dto.QnaDto" useGeneratedKeys="true" keyProperty="qnaId">
+		INSERT INTO qna ( qna_num, user_seq, type, title, content, regDt, ansYN )
+		            VALUES ( #{qnaNum}, #{userSeq}, '1', #{title}, #{content}, now(), 'Y' )
+	</insert>
+	
+	<update id="ansYNUpdate" parameterType="int" >
+		UPDATE qna
+		   SET ansYN = 'Y'
+		 WHERE qna_id = #{qnaId}
+	</update>
+	
+	<insert id="qnaFileInsert" parameterType="com.mycom.myapp.qna.dto.QnaFileDto">
+		INSERT INTO qna_file ( qna_num, file_name, file_size, file_content_type, file_url )
+		            VALUES ( #{qnaNum}, #{fileName}, #{fileSize}, #{fileContentType}, #{fileUrl} )
+	</insert>
+	
+	<select id="qnaList" parameterType="map" resultType="com.mycom.myapp.qna.dto.QnaDto">
+		SELECT q.qna_id, u.user_seq, u.user_email, q.type, q.title, q.content, q.regDt, q.ansYN, q.password, q.qna_num
+		  FROM qna q, users u
+		 WHERE type=0 and q.user_seq=u.user_seq
+		 ORDER BY q.qna_id DESC
+		 LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<select id="qnaListTotalCount" resultType="int">
+		SELECT COUNT(*) FROM qna WHERE type=0
+	</select>
+	
+	<delete id="qnaDelete" parameterType="int">
+		DELETE FROM qna_file WHERE qna_id = #{qnaId}
+	</delete>
+	
+	<delete id="qnaFileDelete" parameterType="int">
+		DELETE FROM qna_file WHERE qna_id = #{qnaId}
+	</delete>
+	
+	<select id="qnaFileUrlDeleteList" parameterType="int" resultType="string">
+		SELECT file_url FROM qna_file WHERE qna_id = #{qnaId}
+	</select>
+
+	<select id="qnaDetail" parameterType="int" resultType="com.mycom.myapp.qna.dto.QnaDto">
+		SELECT q.qna_id, q.user_seq, u.user_email, q.type, q.title, q.content, q.regDt, q.ansYN, q.password, q.qna_num
+		  FROM qna q, users u
+		 WHERE q.qna_id= #{qnaId}
+		   AND q.user_seq = u.user_seq
+	</select>
+	
+	<select id="qnaDetailCount" resultType="int">
+		SELECT COUNT(*) FROM qna WHERE qna_num=#{qna_id}
+	</select>
+	
+	<select id="qnaQuestion" parameterType="int" resultType="com.mycom.myapp.qna.dto.QnaDto">
+		SELECT q.qna_id, q.user_seq, u.user_email, q.type, q.title, q.content, q.regDt, q.ansYN, q.password, q.qna_num
+		  FROM qna q, users u
+		 WHERE q.qna_id= #{qnaId}
+		   AND q.user_seq = u.user_seq
+		   AND q.type=0
+	</select>
+	
+	<select id="qnaAnswerDetail" parameterType="int" resultType="com.mycom.myapp.qna.dto.QnaDto">
+		SELECT q.qna_id, q.user_seq, u.user_email, q.type, q.title, q.content, q.regDt, q.ansYN, q.password, q.qna_num
+		  FROM qna q, users u
+		 WHERE q.qna_num= #{qnaNum}
+		   AND q.user_seq = u.user_seq
+		   AND q.type=1
+	</select>
+	
+	<select id="qnaDetailFileList" parameterType="int" resultType="com.mycom.myapp.qna.dto.QnaFileDto">
+		SELECT qna_id, file_id, file_name, file_size, file_content_type, 
+		       file_url, reg_dt
+		  FROM qna_file
+		 WHERE qna_id = #{qnaId}
+	</select>
+	
+</mapper>

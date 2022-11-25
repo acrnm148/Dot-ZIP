@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mycom.myapp.house.dao.HouseDao">
+    <select id="findHouseDealsByDongCode" parameterType="map" resultType="com.mycom.myapp.house.dto.HouseDealSimpleDto">
+    	SELECT d.no,d.dong,d.AptName,d.dealAmount,d.area,d.dealYear,d.dealMonth,d.dealDay,i.lat,i.lng, is_bookmark(d.no, #{no}) bookmarked
+		FROM housedeal d, houseinfo i
+		WHERE d.house_no=i.no
+		AND d.dong = #{dong}
+		order by d.no
+		limit #{limit} offset #{offset};
+    </select>
+    
+    
+    <select id="houseDealsByDongCodeTotalCnt" parameterType="string" resultType="int">
+    	select count(*) from housedeal
+		where dong = #{dong}
+    </select>
+    
+    <select id="findHouseDealsByAptName" parameterType="map" resultType="com.mycom.myapp.house.dto.HouseDealSimpleDto">
+    	SELECT d.no,d.dong,d.AptName,d.dealAmount,d.area,d.dealYear,d.dealMonth,d.dealDay,i.lat,i.lng, is_bookmark(d.no, #{no}) bookmarked
+		FROM housedeal d, houseinfo i
+		WHERE d.house_no=i.no
+		AND d.AptName like concat('%',#{searchWord},'%')
+		order by d.no
+		limit #{limit} offset #{offset};
+    </select>
+    
+     <select id="houseDealsByAptNameTotalCnt" parameterType="string" resultType="int">
+    	select count(*) from housedeal
+		where AptName like concat('%', #{searchWord},'%')
+    </select>
+    
+    <select id="findHouseDealDetail" parameterType="int" resultType="com.mycom.myapp.house.dto.HouseDealDetailDto">
+    	select d.no, d.dong, dong.city_name, dong.gugun_name, d.AptName, d.code, d.dealAmount,
+		d.buildYear, d.dealYear, d.dealMonth, d.dealDay,
+		d.area, d.floor, d.jibun, d.house_no, i.lat, i.lng, i.img
+		from housedeal d left join houseinfo i on d.house_no = i.no
+		left join dong_code dong on d.dong = dong.name
+		where d.no = #{no}
+    </select>
+    
+    
+</mapper>

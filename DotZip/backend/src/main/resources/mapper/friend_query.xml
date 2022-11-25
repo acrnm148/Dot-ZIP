@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mycom.myapp.friend.dao.FriendDao">
+	<!-- 팔로잉 -->
+	<insert id="friendFollow" parameterType="com.mycom.myapp.friend.dto.FriendDto">
+		insert into friend (user_id_from, user_id_to) 
+		values ( #{fromId}, #{toId})
+	</insert>
+	
+	<!-- 언팔 -->
+	<delete id="friendUnFollow" parameterType="com.mycom.myapp.friend.dto.FriendDto">
+		delete from friend
+		where user_id_from = #{fromId}
+		and user_id_to = #{toId}
+	</delete>
+    
+    <!-- 팔로워 : 나를 친구로 등록한 사람들 수 -->
+	<select id="friendFollowerCount" parameterType="int" resultType="int">
+		select count(user_id_from)
+		from friend
+		where user_id_to = #{toId};
+	</select>
+	
+	<!-- 팔로잉 : 내가 친구로 등록한 사람들 수 -->
+	<select id="friendFollowingCount" parameterType="int" resultType="int">
+		select count(user_id_to)
+		from friend
+		where user_id_from = #{fromId};
+	</select>
+	
+	<!-- 팔로워 : 나를 친구로 등록한 사람들 조회 -->
+	<select id="friendFollower" parameterType="int" resultType="com.mycom.myapp.friend.dto.FriendDto">
+		SELECT f.user_id_from, u.user_seq, u.user_name,u.user_email, u.user_profile_image_url
+		FROM friend f,users u
+		WHERE f.user_id_from = u.user_seq
+		AND f.user_id_to=#{toId}
+	</select>
+	
+	<!-- 팔로잉 : 내가 친구로 등록한 사람들 조회 -->
+	<select id="friendFollowing" parameterType="int" resultType="com.mycom.myapp.friend.dto.FriendDto">
+		SELECT f.user_id_to, u.user_seq, u.user_name, u.user_email, u.user_profile_image_url
+		FROM friend f,users u
+		WHERE f.user_id_to=u.user_seq
+		AND f.user_id_from=#{fromId};
+	</select>
+</mapper>
