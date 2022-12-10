@@ -45,7 +45,7 @@
     
 ```
 
-### Server (Spring Boot)
+### Server (SpringBoot)
 
 ```
 
