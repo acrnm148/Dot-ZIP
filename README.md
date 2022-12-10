@@ -70,7 +70,7 @@
 - Open News API를 활용하여 **관련된 실시간 뉴스 크롤링**
 - **공지사항, QnA게시판**을 구현
 - **Git, Notion**을 활용하여 협업 관리
-    <img src="https://img.shields.io/badge/DotZip-FFFFF?style=flat-square&logo=notion&logoColor=white">
+    <img src="https://img.shields.io/badge/DotZip-white?style=flat-square&logo=notion&logoColor=black">
   
 <br>
 
