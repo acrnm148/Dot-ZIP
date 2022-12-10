@@ -71,7 +71,7 @@
 - **공지사항, QnA게시판**을 구현
 - **Git, Notion**을 활용하여 협업 관리   
     <a href="https://www.notion.so/sunakang/f71e5251ea8a4a2fa1d4df165b0b7494" target="_blank">
-        <img src="https://img.shields.io/badge/How to make DotZip-white?style=square&logo=notion&logoColor=black">
+        <img src="https://img.shields.io/badge/DotZip 개발 과정-white?style=square&logo=notion&logoColor=black">
     </a>
   
 <br>
