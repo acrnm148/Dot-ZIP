@@ -38,7 +38,7 @@
 <br>
 
 ## 4️⃣ 프로젝트 설계
-
+<!--
 ### Client (Vue)
 ```
 
@@ -51,7 +51,7 @@
 
 
 ```
-
+-->
 ### ERD
 ![image](https://user-images.githubusercontent.com/67724306/206823236-e64ef1b1-2161-4079-97da-960772f9a2b1.png)
 
