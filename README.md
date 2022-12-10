@@ -4,7 +4,8 @@
 
 SSAFY 관통프로젝트
 
-![image](https://user-images.githubusercontent.com/67724306/206822726-f32fd573-17fb-46fe-a64d-31980b34cd84.png)
+![image](https://user-images.githubusercontent.com/67724306/206823394-697192d9-9ed4-47f7-959d-ac7037837258.png)
+
 
 <br><br>
 
