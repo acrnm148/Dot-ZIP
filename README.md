@@ -25,12 +25,7 @@ SSAFY 관통프로젝트
     - 관련 뉴스를 제공하여 실시간 소식을 확인할 수 있다.
 <br>
 
-## 3️⃣ 역할
-
- 
-<br>
-
-## 4️⃣ 개발 환경 & 기술 스택
+## 3️⃣ 개발 환경 & 기술 스택
   - 운영체제 : Windows 10
   - Front-End : Vue.js, Vuex, HTML5, CSS5, BootStrap5, JavaScript
   - Back : SpringBoot, MyBatis, GSON
@@ -38,7 +33,7 @@ SSAFY 관통프로젝트
   - Etc : Git, Notion
 <br>
 
-## 5️⃣ 프로젝트 설계
+##  프로젝트 설계
 
 ### Client (Vue)
 ```
@@ -59,7 +54,7 @@ SSAFY 관통프로젝트
 
 <br>
 
-## 6️⃣ 개발 내용 / 성과
+## 4️⃣ 개발 내용 / 성과
 
 - **공공데이터**를 활용한 서울 시 아파트 매물 정보 **DB를 생성**했습니다.
 - Kakao Map API를 활용하여 **매물 정보, 주변 상권 정보**를 시각화했습니다.
@@ -74,5 +69,12 @@ SSAFY 관통프로젝트
   
 <br>
 
-## 8️⃣ 발표 자료 
+## 5️⃣ 발표 자료 
 
+<br>
+
+## 6️⃣ 팀 구성
+|직책|이름|GitHub|
+|---|---|---|
+|조장|문석환|[@kamoo2](https://github.com/kamoo2)|
+|조원|강수나|[@acrnm148](https://github.com/acrnm148)|
