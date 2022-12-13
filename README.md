@@ -32,7 +32,7 @@
 ## 3️⃣ 개발 환경 & 기술 스택
   - 운영체제 : Windows 10
   - Front-End : Vue.js, Vuex, HTML5, CSS5, BootStrap5, JavaScript
-  - Back : SpringBoot, MyBatis, GSON
+  - Back-End : SpringBoot, MyBatis, GSON
   - Database : MySQL
   - Etc : Git, Notion
 <br>
